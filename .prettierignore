@@ -1,0 +1,10 @@
+# Ignore artifacts:
+.next
+coverage
+node_modules
+.prettierignore
+.stylelintignore
+.eslintignore
+*.log
+.nyc_output
+test-results
