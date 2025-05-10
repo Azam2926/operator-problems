@@ -36,7 +36,6 @@ export function CommutatorCombobox({
   const [options, setOptions] = React.useState<string[]>([]);
   const [inputValue, setInputValue] = React.useState("");
   const [loading, setLoading] = React.useState(true);
-  console.log("operator prop", operator);
 
   React.useEffect(() => {
     async function loadCommutators() {

@@ -25,7 +25,7 @@ import {
 import { createProblem } from "@/lib/actions";
 import { toast } from "sonner";
 import { CommutatorCombobox } from "@/components/commutator-combobox";
-import { problemSchema } from "@/app/problems/validation";
+import { problemSchema } from "@/app/(app)/problems/validation";
 import { OperatorCombobox } from "@/components/operator-combobox";
 
 type FormValues = z.infer<typeof problemSchema>;
@@ -61,7 +61,6 @@ export function ProblemForm() {
         note: values.note || "",
         answer: values.answer || "",
       };
-      console.log("formattedValues", formattedValues);
       const result = await createProblem(formattedValues);
       if (result.success) {
         toast.success("Problem created successfully");
@@ -88,7 +87,6 @@ export function ProblemForm() {
   }
 
   const operator = form.watch("operator");
-  console.log("operator", operator);
 
   return (
     <Form {...form}>

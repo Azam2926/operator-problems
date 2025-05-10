@@ -47,7 +47,10 @@ export const ProblemUpdateSchema = createUpdateSchema(problemTable);
 
 export const usersTable = pgTable("users", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  name: varchar({ length: 255 }).notNull(),
-  age: integer().notNull(),
-  email: varchar({ length: 255 }).notNull().unique(),
+  emplid: integer().notNull(),
+  firstname: varchar({ length: 255 }).notNull(),
+  lastname: varchar({ length: 255 }).notNull(),
+  secondname: varchar({ length: 255 }).notNull(),
 });
+
+export type User = typeof usersTable.$inferSelect;

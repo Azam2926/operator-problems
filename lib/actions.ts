@@ -5,6 +5,7 @@ import { Problem, problemTable } from "@/db/schema";
 import { db } from "@/db";
 import { eq, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 
 export async function createProblem(data: {
   operator: string;
@@ -18,6 +19,8 @@ export async function createProblem(data: {
 }) {
   console.log("Creating problem with data:", data);
   try {
+    const ipv4 = await getUserIPv4();
+    console.log("ipv4: ", ipv4);
     const result = await db.insert(problemTable).values({
       operator: data.operator,
       commutator: data.commutator,
@@ -108,14 +111,12 @@ export async function getProblemById(id: number) {
 }
 
 export async function getCommutators(operator: string) {
-  console.log("operator -> ", operator);
   try {
     const commutators = await db
       .selectDistinct({ commutator: problemTable.commutator })
       .from(problemTable)
       .where(eq(problemTable.operator, operator))
       .orderBy(problemTable.commutator);
-    console.log("commutators", commutators);
     return {
       success: true,
       data: commutators.map((i) => i.commutator),
@@ -162,5 +163,17 @@ export async function getChartsData() {
       success: false,
       error: "Failed to create commutator",
     };
+  }
+}
+
+export async function getUserIPv4() {
+  try {
+    const h = await headers();
+    const ipv4 = h.get("x-forwarded-for") || "Unknown IP";
+    console.log("User IPv4:", ipv4);
+    return ipv4;
+  } catch (error) {
+    console.error("Error fetching user IPv4:", error);
+    return "Error fetching IP";
   }
 }
