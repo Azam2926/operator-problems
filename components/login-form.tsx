@@ -1,27 +1,27 @@
 "use client";
 
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { AuthResponse, useWsAuth } from "@/hooks/use-ws-auth";
+// import { AuthResponse, useWsAuth } from "@/hooks/use-ws-auth";
 // import { signIn } from "@/auth";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
-  const { login } = useWsAuth();
-  const credentialsAction = (data: AuthResponse) => {
-    // signIn("credentials", data);
-  };
-  useEffect(() => {
-    login().then((data) => {
-      if (!data) return;
-      credentialsAction(data);
-    });
-  }, []);
+  // const { login } = useWsAuth();
+  // const credentialsAction = (data: AuthResponse) => {
+  //   // signIn("credentials", data);
+  // };
+  // useEffect(() => {
+  //   login().then((data) => {
+  //     if (!data) return;
+  //     credentialsAction(data);
+  //   });
+  // }, []);
 
   return (
     <form className={cn("flex flex-col gap-6", className)} {...props}>

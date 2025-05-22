@@ -1,6 +1,5 @@
 "use server";
 
-import { mockDb } from "@/lib/mock-data";
 import { Problem, problemTable } from "@/db/schema";
 import { db } from "@/db";
 import { eq, sql } from "drizzle-orm";
@@ -11,8 +10,8 @@ export async function createProblem(data: {
   operator: string;
   commutator: string;
   product_id: string;
-  start_date: string;
-  end_date?: string;
+  start_date: Date;
+  end_date: Date | undefined;
   note?: string;
   status: "active" | "inactive";
   answer?: string;
@@ -21,21 +20,21 @@ export async function createProblem(data: {
   try {
     const ipv4 = await getUserIPv4();
     console.log("ipv4: ", ipv4);
-    const result = await db.insert(problemTable).values({
+    await db.insert(problemTable).values({
       operator: data.operator,
       commutator: data.commutator,
       product_id: data.product_id,
       start_date: new Date(data.start_date),
-      end_date: data.end_date ? new Date(data.end_date) : null,
+      end_date: data.end_date,
       note: data.note || null,
       status: data.status,
       answer: data.answer || null,
+      client_ip: ipv4,
     });
     revalidatePath("/");
 
     return {
       success: true,
-      data: result,
     };
   } catch (error) {
     console.error("Error creating problem:", error);
@@ -82,30 +81,6 @@ export async function getOperators() {
       success: false,
       error: "Failed to fetch problems",
       data: [] as string[],
-    };
-  }
-}
-
-export async function getProblemById(id: number) {
-  try {
-    const problem = mockDb.getProblemById(id);
-
-    if (!problem) {
-      return {
-        success: false,
-        error: "Problem not found",
-      };
-    }
-
-    return {
-      success: true,
-      data: problem,
-    };
-  } catch (error) {
-    console.error("Error fetching problem:", error);
-    return {
-      success: false,
-      error: "Failed to fetch problem",
     };
   }
 }

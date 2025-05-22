@@ -40,7 +40,7 @@ export function ProblemForm() {
       commutator: "",
       product_id: "",
       start_date: new Date(),
-      end_date: null,
+      end_date: new Date(),
       note: "",
       status: "active" as const,
       answer: "",
@@ -53,10 +53,8 @@ export function ProblemForm() {
       // Convert dates to strings for the API
       const formattedValues = {
         ...values,
-        start_date: values.start_date
-          ? new Date(values.start_date)
-          : new Date(),
-        end_date: values.end_date ? new Date(values.end_date) : "",
+        start_date: values.start_date || new Date(),
+        end_date: values.end_date || undefined,
         status: values.status || ("active" as const),
         note: values.note || "",
         answer: values.answer || "",

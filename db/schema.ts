@@ -30,6 +30,7 @@ export const problemTable = pgTable("problems", {
   note: varchar({ length: 1024 }),
   status: statusEnum(),
   answer: text(),
+  client_ip: varchar({ length: 255 }),
   created_at: timestamp().defaultNow(),
   updated_at: timestamp({ mode: "date", precision: 3 }).$onUpdate(
     () => new Date(),
